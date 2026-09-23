@@ -14,8 +14,10 @@ public:
 
     void cleanup() override;
 
+
+    void RetoA();
 private:
-    physx::PxTransform m_transform;
-    RenderItem* m_renderItem{ nullptr };
+    std::vector<physx::PxTransform> m_transforms;
+    std::vector<RenderItem*> m_renderItems;
 };
 
