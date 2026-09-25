@@ -13,9 +13,58 @@ void P0S_Scene:: init(){
 	*/
 
 	//Reto A 
-	//RetoA();
+	RetoA();
 
 	//Reto B
+	//RetoB();
+}
+
+void P0S_Scene::update(double dt) {
+	
+}
+
+void P0S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
+}
+
+void P0S_Scene::cleanup() {
+	for (RenderItem* item : m_renderItems) {
+		if (item) item->release();
+	}
+	m_renderItems.clear();
+	m_transforms.clear();
+}
+
+void P0S_Scene::RetoA() {
+	Vector3D cero;
+	Vector3D u (3.0f, 0.0f, 0.0f);
+	Vector3D v (0.0f, 4.0f, 0.0f);
+	Vector3D w = u.cross(v);
+
+	int mult =2;
+
+	u = u.normalize() * mult;
+	v = v.normalize() * mult;
+	w = w.normalize() * mult;
+
+	u = u * 5.0f;
+	v = v * 5.0f;
+	w = w * 5.0f;
+
+	physx::PxShape* p1 = CreateShape(physx::PxSphereGeometry(1.0f));
+
+	m_transforms.push_back(physx::PxTransform(u.toPxVec3()));
+	m_transforms.push_back(physx::PxTransform(v.toPxVec3()));
+	m_transforms.push_back(physx::PxTransform(w.toPxVec3()));
+	m_transforms.push_back(physx::PxTransform(cero.toPxVec3()));
+
+
+	m_renderItems.push_back(new RenderItem(p1, &m_transforms[0], Vector4(1, 0, 0, 1))); // rojo
+	m_renderItems.push_back(new RenderItem(p1, &m_transforms[1], Vector4(0, 1, 0, 1))); // verde
+	m_renderItems.push_back(new RenderItem(p1, &m_transforms[2], Vector4(0, 0, 1, 1))); // azul
+	m_renderItems.push_back(new RenderItem(p1, &m_transforms[3], Vector4(1, 1, 1, 1)));
+}
+
+void P0S_Scene::RetoB(){
 	Vector3D pos;
 	Vector3D d (0.0f, 0.0f, 1.0f);
 	physx::PxShape* p1 = CreateShape(physx::PxSphereGeometry(2.0f));
@@ -42,46 +91,4 @@ void P0S_Scene:: init(){
 		m_transforms.push_back(physx::PxTransform(puntos[i].toPxVec3()));
 		m_renderItems.push_back(new RenderItem(shape, &m_transforms.back(), color));
 	}
-}
-
-void P0S_Scene::update(double dt) {
-	
-}
-
-void P0S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
-}
-
-void P0S_Scene::cleanup() {
-	for (RenderItem* item : m_renderItems) {
-		if (item) item->release();
-	}
-	m_renderItems.clear();
-	m_transforms.clear();
-}
-
-void P0S_Scene::RetoA() {
-	Vector3D u (3.0f, 1.0f, 0.0f);
-	Vector3D v (0.0f, 4.0f, 0.0f);
-	Vector3D w = u.cross(v);
-
-	u = u.normalize() * 5;
-	v = v.normalize() * 5;
-	w = w.normalize() * 5;
-
-	u = u * 5.0f;
-	v = v * 5.0f;
-	w = w * 5.0f;
-
-	m_transforms.reserve(3);
-	m_renderItems.reserve(3);
-
-	physx::PxShape* p1 = CreateShape(physx::PxSphereGeometry(1.0f));
-
-	m_transforms.push_back(physx::PxTransform(u.toPxVec3()));
-	m_transforms.push_back(physx::PxTransform(v.toPxVec3()));
-	m_transforms.push_back(physx::PxTransform(w.toPxVec3()));
-
-	m_renderItems.push_back(new RenderItem(p1, &m_transforms[0], Vector4(1, 0, 0, 1))); // rojo
-	m_renderItems.push_back(new RenderItem(p1, &m_transforms[1], Vector4(0, 1, 0, 1))); // verde
-	m_renderItems.push_back(new RenderItem(p1, &m_transforms[2], Vector4(0, 0, 1, 1))); // azul
 }

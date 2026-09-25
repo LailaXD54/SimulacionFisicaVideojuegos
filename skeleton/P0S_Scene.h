@@ -15,7 +15,9 @@ public:
     void cleanup() override;
 
 
-    void RetoA();
+    void RetoA(); //coordenadas
+
+    void RetoB();
 private:
     std::vector<physx::PxTransform> m_transforms;
     std::vector<RenderItem*> m_renderItems;
