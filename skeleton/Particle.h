@@ -11,12 +11,17 @@ public:
 
 	void integrate(double t);
 
+	void integrateSemiEuler(double t);
+
+	void integrateVerlet(double t);
 private:
 	Vector3D vel;
 	Vector3D acc;
 	float d; //entre 0 y 1
 	physx::PxTransform pose;
 	
+	Vector3D posAnt;
+
 	RenderItem* renderItem = nullptr;
 };
 

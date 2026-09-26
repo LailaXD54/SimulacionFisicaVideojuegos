@@ -1,6 +1,7 @@
 #pragma once
 #include <PxPhysics.h>
 #include <cmath>
+#include <ostream>
 
 class Vector3D
 {
@@ -40,6 +41,11 @@ public:
 		x += other.x; y += other.y; z += other.z;
 		return *this;
 	}
+	Vector3D operator/(float di) const {
+		return Vector3(x / di, y / di, z / di);
+	}
+
+	
 	//Conversiones a PxVec3
 	explicit operator physx::PxVec3() const {
 		return physx::PxVec3(x, y, z);
@@ -72,3 +78,7 @@ public:
 
 };
 
+inline std::ostream& operator<<(std::ostream& os, const Vector3D& other) {
+	os << "(" << other.x << ", " << other.y << ", " << other.z << ")";
+	return os;
+}
