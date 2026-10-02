@@ -1,5 +1,7 @@
 #include "Particle.h"
 #include <iostream>
+#include <PxPhysicsAPI.h>
+
 Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, float Damping)
 	: vel(Vel), 
 	pose(Pos.toPxVec3()),
@@ -12,7 +14,6 @@ Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, float Damp
 }
 
 Particle::~Particle() {
-
 	renderItem->release();
 	renderItem = nullptr;
 }
@@ -28,7 +29,7 @@ void Particle::integrate(double t) {
 }
 
 void Particle::integrateSemiEuler(double t) {
-	Vector3D newVel = (vel + acc * t) * d * std::pow(d, t);
+	Vector3D newVel = (vel + acc * t) * std::pow(d, t);
 	Vector3D newPos = Vector3D(pose.p) + newVel * t;
 
 	vel = newVel;
@@ -37,14 +38,14 @@ void Particle::integrateSemiEuler(double t) {
 	acc = 0;
 }
 
-void Particle::integrateVerlet(double t) {
-	Vector3D currPos = Vector3D(pose.p);
-	Vector3D newPos = currPos + (currPos - posAnt) *(1.0f - d) + acc * (t * t);
+void Particle::integrateVerlet(double t) {	
+	Vector3D posA = pose.p;
+	posA = Vector3D(pose.p) * 2.0f - posAnt + acc * t * t;
+	posAnt= pose.p;
+	vel = (Vector3D(pose.p) - posAnt) / (2.0f * t);
+	pose.p = posA.toPxVec3();
 
-	posAnt = currPos;
-	pose.p = newPos.toPxVec3();
-
-	vel = (newPos - posAnt) / t;
+	std::cout << vel <<" "<<pose.p << std::endl;
 
 	acc = 0;
 }
