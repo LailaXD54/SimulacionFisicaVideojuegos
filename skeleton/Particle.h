@@ -6,7 +6,8 @@
 class Particle
 {
 public:
-	Particle(Vector3D Pos, Vector3D Vel, Vector3D Accerelacion,float Damping);
+	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion,float Damping = 1.0f);
+	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping = 1.0f);
 	~Particle();
 
 	void integrate(double t);
@@ -14,14 +15,17 @@ public:
 	void integrateSemiEuler(double t);
 
 	void integrateVerlet(double t);
-private:
+
+	void setColor(Vector4 color);
+
+protected:
 	Vector3D vel;
 	Vector3D acc;
 	float d; //entre 0 y 1
 	physx::PxTransform pose;
 	
 	Vector3D posAnt;
-
+	float masa;
 	RenderItem* renderItem = nullptr;
 };
 

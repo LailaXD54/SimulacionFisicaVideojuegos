@@ -19,6 +19,10 @@
     <ClCompile Include="P1S_Scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="P2S_Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -41,6 +45,10 @@
     <ClInclude Include="P1S_Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="P2S_Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectils.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
