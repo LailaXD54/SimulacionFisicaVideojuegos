@@ -54,11 +54,11 @@ void Particle::integrateSemiEuler(double t) {
 }
 
 void Particle::integrateVerlet(double t) {	
-	Vector3D posA = pose.p;
-	posA = Vector3D(pose.p) * 2.0f - posAnt + acc * t * t;
-	posAnt= pose.p;
-	vel = (Vector3D(pose.p) - posAnt) / t;
-	pose.p = posA.toPxVec3();
+	Vector3D posActual = Vector3D(pose.p);
+	Vector3D posNueva = posActual * 2.0f - posAnt + acc * t * t;
+	vel = (posNueva - posAnt) / (2 * t);
+	posAnt = pose.p;
+	pose.p = posNueva.toPxVec3();
 
 	std::cout << vel <<" "<<pose.p << std::endl;
 

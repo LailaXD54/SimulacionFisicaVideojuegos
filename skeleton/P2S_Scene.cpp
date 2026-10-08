@@ -18,17 +18,21 @@ void P2S_Scene::keyPress(unsigned char key, const physx::PxTransform& cameraTran
 		cout << "disparando" << endl;
 		//Projectils* test = new Projectils(1.0f, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()), Vector3D(GetCamera()->getDir()));
 
-		v_pro.push_back(new Projectils(1.0f, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()) * 5, Vector3D(GetCamera()->getDir())));
+		v_pro.push_back(new Projectils(1.0f, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()) * 5, Vector3D(GetCamera()->getDir()), 1.0f,0.25f,0.0f));
 		break;
 
 	case 'm':
+		cout << "m" << endl;
+		v_pro[v_pro.size() - 1]->addMasa(-1.0f);
 		break;
 	case 'M':
+		v_pro[v_pro.size() - 1]->addMasa(1.0f);
 		break;
-
-	case 'v':
+	case 'n':
+		v_pro[v_pro.size() - 1]->addVel(Vector3D(-GetCamera()->getDir()));
 		break;
-	case 'V':
+	case 'N':
+		v_pro[v_pro.size() - 1]->addVel(Vector3D(GetCamera()->getDir()));
 		break;
 
 	default:

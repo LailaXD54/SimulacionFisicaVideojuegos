@@ -21,5 +21,9 @@ public:
     Vector3D velSim();
 
     float masaSim();
+
+    void addMasa(float m);
+
+    void addVel(Vector3D v);
 };
 

@@ -9,7 +9,7 @@ Particle(masa, Pos, Vel, Accerelacion,Damping), factor(factor), gravedad(graveda
 }
 
 Projectils::Projectils(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping, float factor, float gravedad) :
-	Particle(masa, Pos, Vel, Accerelacion, shape, Damping)
+	Particle(masa, Pos, Vel, Accerelacion, shape, Damping), factor(factor), gravedad(gravedad)
 {
 
 }
@@ -18,7 +18,7 @@ void Projectils::pRelentizado(double dt) {
 	Vector3D vel_s = velSim();
 
 	pose.p += vel_s.toPxVec3() * dt;
-	vel = vel - (Vector3D(0,g,0) * factor * dt);
+	vel.setY(vel.getY() - gravedad * factor * dt);
 	
 }
 
@@ -27,5 +27,13 @@ Vector3D Projectils::velSim() {
 }
 
 float Projectils::masaSim() {
-	return masa / factor;
+	return masa / (factor * factor);
+}
+
+void Projectils::addMasa(float m) {
+	masa += m;
+}
+
+void Projectils::addVel(Vector3D v) {
+	vel += v;
 }
