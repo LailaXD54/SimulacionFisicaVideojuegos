@@ -41,8 +41,9 @@ public:
 		x += other.x; y += other.y; z += other.z;
 		return *this;
 	}
+
 	Vector3D operator/(float di) const {
-		return Vector3(x / di, y / di, z / di);
+		return Vector3D(x / di, y / di, z / di);
 	}
 
 	

@@ -6,8 +6,8 @@
 class Particle
 {
 public:
-	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion,float Damping = 1.0f);
-	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping = 1.0f);
+	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion,float Damping = 1.0f, float time = 10.0f);
+	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping = 1.0f, float time = 10.0f);
 	~Particle();
 
 	void integrate(double t);
@@ -27,5 +27,7 @@ protected:
 	Vector3D posAnt;
 	float masa;
 	RenderItem* renderItem = nullptr;
+
+	float lifeTime;
 };
 

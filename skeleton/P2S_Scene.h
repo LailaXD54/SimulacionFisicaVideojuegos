@@ -14,6 +14,9 @@ public:
     void keyPress(unsigned char key, const physx::PxTransform& cameraTransform) override;
 
     void cleanup() override;
+
+    void write();
+
 private:
     std::vector<Projectils*> v_pro;
 };

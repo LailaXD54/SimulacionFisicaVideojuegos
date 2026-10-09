@@ -4,25 +4,27 @@
 
 const float size = 0.1f;
 
-Particle::Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, float Damping)
+Particle::Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, float Damping, float time)
 	: vel(Vel), 
 	pose(Pos.toPxVec3()),
 	acc(Accerelacion),
 	d(Damping),
 	posAnt(Pos.toPxVec3()),
-	masa(masa)
+	masa(masa),
+	lifeTime(time)
 {
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(size));
 	renderItem = new RenderItem(shape, &pose, Vector4(1, 0, 1, 1));
 }
 
-Particle::Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping )
+Particle::Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping, float time)
 	: vel(Vel),
 	pose(Pos.toPxVec3()),
 	acc(Accerelacion),
 	d(Damping),
 	posAnt(Pos.toPxVec3()),
-	masa(masa)
+	masa(masa),
+	lifeTime(time)
 {
 	renderItem = new RenderItem(shape, &pose, Vector4(1, 0, 1, 1));
 }

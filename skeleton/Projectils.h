@@ -28,5 +28,9 @@ public:
     void addMasa(float m);
 
     void addVel(Vector3D v);
+
+    float getMasa()const { return masa; }
+    Vector3D getVel() const { return vel; }
+
 };
 
