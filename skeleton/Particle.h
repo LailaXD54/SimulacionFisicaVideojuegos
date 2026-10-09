@@ -5,7 +5,7 @@
 
 class Particle
 {
-public:
+public: //cambiar para que sea la gravedad que se cambie
 	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion,float Damping = 1.0f, float time = 10.0f);
 	Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping = 1.0f, float time = 10.0f);
 	~Particle();

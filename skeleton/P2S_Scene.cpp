@@ -14,27 +14,32 @@ void P2S_Scene::update(double dt) {
 
 void P2S_Scene::keyPress(unsigned char key, const physx::PxTransform& cameraTransform) {
 	switch (key) {
-	case 'b':
-		v_pro.push_back(new Projectils(1.0f, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()) * 5, Vector3D(GetCamera()->getDir()), 1.0f,0.25f));
+	case 'b': {
+		v_pro.push_back(new Projectils(1.0f, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()) * 5, Vector3D(GetCamera()->getDir()), 1.0f, 0.25f));
 		write();
 		break;
+	}
 
-	case 'm':
+	case 'm': {
 		v_pro[v_pro.size() - 1]->addMasa(-1.0f);
 		write();
 		break;
-	case 'M':
+	}
+	case 'M': {
 		v_pro[v_pro.size() - 1]->addMasa(1.0f);
 		write();
 		break;
-	case 'n':
+	}
+	case 'n': {
 		v_pro[v_pro.size() - 1]->addVel(Vector3D(-GetCamera()->getDir()));
 		write();
 		break;
-	case 'N':
+	}
+	case 'N': {
 		v_pro[v_pro.size() - 1]->addVel(Vector3D(GetCamera()->getDir()));
 		write();
 		break;
+	}
 
 	default:
 		break;

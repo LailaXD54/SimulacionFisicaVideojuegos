@@ -23,6 +23,8 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Projectils.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParticleGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -49,6 +51,8 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Projectils.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ParticleGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
