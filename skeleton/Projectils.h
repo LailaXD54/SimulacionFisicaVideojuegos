@@ -10,10 +10,13 @@ private:
     float factor;
     float gravedad;
 
+    bool hitscan;
 public:
-    Projectils(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, float Damping = 1.0f, float factor = 0.25f, float gravedad = 9.81f);
-    Projectils(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping = 1.0f, float factor = 0.25f, float gravedad = 9.81f);
+    Projectils(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, float Damping = 1.0f, float factor = 0.25f, float gravedad = 9.81f, bool hitscan = false);
+    Projectils(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping = 1.0f, float factor = 0.25f, float gravedad = 9.81f, bool hitscan = false);
 
+    void update(double dt);
+    void hitScan(double dt);
     void pRelentizado(double dt);
 
     void hitScan();
