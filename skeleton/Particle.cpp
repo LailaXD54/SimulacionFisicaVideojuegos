@@ -11,7 +11,7 @@ Particle::Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion
 	d(Damping),
 	posAnt(Pos.toPxVec3()),
 	masa(masa),
-	lifeTime(time)
+	lifeTime(time), timeRemain(time)
 {
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(size));
 	renderItem = new RenderItem(shape, &pose, Vector4(1, 0, 1, 1));
@@ -24,7 +24,7 @@ Particle::Particle(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion
 	d(Damping),
 	posAnt(Pos.toPxVec3()),
 	masa(masa),
-	lifeTime(time)
+	lifeTime(time), timeRemain(time)
 {
 	renderItem = new RenderItem(shape, &pose, Vector4(1, 0, 1, 1));
 }
@@ -69,4 +69,13 @@ void Particle::integrateVerlet(double t) {
 
 void Particle::setColor(Vector4 color) {
 	renderItem->color = color;
+}
+
+void Particle::updateLife(double dt) {
+	timeRemain -= dt;
+	if (timeRemain <= 0.0f) alive = false;
+}
+
+Vector4 Particle::getColor() const {
+	return renderItem->color;
 }

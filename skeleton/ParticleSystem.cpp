@@ -1,17 +1,46 @@
 #include "ParticleSystem.h"
+#include <algorithm>
+#include <iostream>
 
-ParticleSystem::ParticleSystem(Vector3D pos, Vector3D vel, Vector4 color, physx::PxShape* shape, float tam, float time) {
-
+ParticleSystem::ParticleSystem(float emisiones):
+	t_emisiones(emisiones) {
+	accumulador = 0.0f;
 }
 
-void ParticleSystem::update(double dt){
-	
+ParticleSystem::~ParticleSystem() {
+	for (Particle* p : v_particle) delete p;
+	v_particle.clear();
+}
 
-
-	for (Particle* p : v_particle){
-		if (p != nullptr) {
-			p->integrateSemiEuler(dt);
-		}
+void ParticleSystem::update(ParticleGenerator* _pg,double dt){
+	accumulador += dt;
+	float intervalo = 1.0f / t_emisiones;
+	while (accumulador >= intervalo) {
+		v_particle.push_back(_pg->getNewParticle());
+		accumulador -= intervalo;
 	}
+
+	Vector4 color_fading = _pg->getFading();
+
+	for (Particle* p : v_particle) {
+		if (!p) continue;
+		p->integrateSemiEuler(dt);
+		
+		p->setColor(p->getColor() - color_fading*dt);
+
+		//std::cout << p->getColor().getXYZ()<<"\n";
+
+
+		p->updateLife(dt);
+	}
+
+	auto it = std::remove_if(v_particle.begin(), v_particle.end(),
+		[this](Particle* p) {
+			if (!p) return true;
+			if (!p->isAlive()) { delete p; return true; }
+			if (p->getPos().magnitude() > maxDistance) { delete p; return true; }
+			return false;
+		});
+	v_particle.erase(it, v_particle.end());
 }
 

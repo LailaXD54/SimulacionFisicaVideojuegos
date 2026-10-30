@@ -2,6 +2,9 @@
 #include "Scene.h"
 #include "Particle.h"
 #include "Vector3D.h"
+
+#include "ParticleSystem.h"
+#include "ParticleGenerator.h"
 class P1S_Scene :
     public Scene
 {
@@ -17,7 +20,8 @@ public:
 
 private:
     Particle* p_particle;
-
+    ParticleSystem* p_ps;
+    ParticleGenerator* p_pg;
 
 };
 

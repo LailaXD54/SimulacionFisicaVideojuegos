@@ -6,12 +6,21 @@ class ParticleSystem
 	//En el sistema de particulas se tiene un vector de particulas junto con su uptade y el generador de particulas
 private:
 	std::vector<Particle*> v_particle;
-	ParticleGenerator* _pg = nullptr;
+	
+
+	float t_emisiones;
+	float accumulador;
+	float maxDistance = 100.0f;
+
+	int type = 1;
 
 public:
-	ParticleSystem(Vector3D pos, Vector3D vel, Vector4 color,physx::PxShape* shape , float tam, float time);
+	ParticleSystem(float emisiones = 10.0f);
+	~ParticleSystem();
+	void update(ParticleGenerator* _pg, double dt);
+	void setMaxDistance(float d) { maxDistance = d; }
+	int getNumParticles() const { return v_particle.size(); }
 
-	void update(double dt);
-	
+	void setType(int t) { type = t; }
 };
 

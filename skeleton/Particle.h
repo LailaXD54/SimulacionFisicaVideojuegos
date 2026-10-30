@@ -18,6 +18,14 @@ public: //cambiar para que sea la gravedad que se cambie
 
 	void setColor(Vector4 color);
 
+	bool isAlive() { return alive; }
+
+	Vector3D getPos() { return Vector3D(pose.p); }
+
+	void updateLife(double dt);
+
+	Vector4 getColor() const;
+
 protected:
 	Vector3D vel;
 	Vector3D acc;
@@ -29,5 +37,8 @@ protected:
 	RenderItem* renderItem = nullptr;
 
 	float lifeTime;
+
+	float timeRemain;
+	bool alive = true;
 };
 

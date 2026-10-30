@@ -24,28 +24,39 @@ private:
 	Vector3D vel;
 	bool gausse;
 
-	Vector3 posA, posB;
+	Vector3D desv;
+	Vector3D posA, posB;
 
 	//caracteristicas de las particulas
 	Vector4 color;
 	float tam;
+	float lifeTime;
 	physx::PxShape* shape = nullptr;
 
 	std::mt19937 _mt;
-	std::uniform_real_distribution<double> u;
-	std::normal_distribution<double> g;
+	std::uniform_real_distribution<double> u{ 0.0, 1.0 };
+	std::normal_distribution<double> g{ 0.0, 1.0 };
+
+	bool vel_g, pos_g, color_g;
+
+	Vector4 colorfade;
 	
 public:
-	ParticleGenerator();
-	//Particle getNewParticle();
-
-	//Particle update(double dt);
-	//Particle Uniforme();
-	//Particle Gaus();
+	//pos, vel, desv, color, tam, lifeTime, *shape, gause
+	ParticleGenerator(Vector3D pos, Vector3D vel, Vector3D desv, Vector4 color, float tam, float lifeTime, physx::PxShape* shape,Vector3D posA, Vector3D posB,bool gausse = true);
+	
+	Particle* getNewParticle();
 
 	void setGaus(bool g) { gausse = g; }
+	void setVelRange(Vector3D mn, Vector3D mx) { posA = mn; posB = mx; }
 
+	float getValues(float posA, float posB);
+
+	void setColorGause(bool c) { color_g = c; }
+	void setVelGause(bool c) { vel_g = c; }
+	void setPosGause(bool c) { pos_g = c; }
+
+	void setFading(Vector4 color) { colorfade = color; }
+
+	Vector4 getFading() const { return colorfade; }
  };
-
-
-

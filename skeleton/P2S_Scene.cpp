@@ -8,52 +8,54 @@ void P2S_Scene::init() {
 
 void P2S_Scene::update(double dt) {
 	for (Projectils* item : v_pro) {
-		if (item) item->update(dt);
+		if (item) item->disparar(dt);
 	}
 }
 
 void P2S_Scene::keyPress(unsigned char key, const physx::PxTransform& cameraTransform) {
+
+	float masa=0, vel=0, simVel = 0, gravedad=-9.81f;
 	switch (key) {
-	case 'b': {
-		v_pro.push_back(new Projectils(1.0f, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()) * 5, Vector3D(GetCamera()->getDir()), 1.0f, 0.25f));
+	case 'b': { //disparo 
+		masa = 100.0f;
+		vel = 500.0f;
+		simVel = 499.0f;
+		gravedad = -5;
 		write();
 		break;
 	}
 
-	case 'm': {
-		v_pro[v_pro.size() - 1]->addMasa(-1.0f);
+	case 'm': { //proyectil fuerte
+		masa = 15.0f;
+		vel = 100.0f;
+		simVel = 10.0f;
+
 		write();
 		break;
 	}
-	case 'M': {
-		v_pro[v_pro.size() - 1]->addMasa(1.0f);
+	case 'n': { //bubble
+		masa = 1.0f;
+		vel = 10.0f;
+		simVel = 2.0f;
+		gravedad = -4.81f;
+
 		write();
 		break;
 	}
-	case 'n': {
-		v_pro[v_pro.size() - 1]->addVel(Vector3D(-GetCamera()->getDir()));
-		write();
-		break;
-	}
-	case 'N': {
-		v_pro[v_pro.size() - 1]->addVel(Vector3D(GetCamera()->getDir()));
-		write();
-		break;
-	}
+	
 
 	default:
 		break;
 	}
+
+	v_pro.push_back(new Projectils(masa, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()), vel, simVel, gravedad));
 
 
 	
 }
 
 void P2S_Scene:: write() {
-	cout << "Masa real: " << v_pro[v_pro.size() - 1]->getMasa() << endl;
-	cout << "Masa sim: " << v_pro[v_pro.size() - 1]->masaSim() << endl;
-	cout << "Velocidad real: " << v_pro[v_pro.size() - 1]->getVel() << endl;
-	cout << "Velocidad sim: " << v_pro[v_pro.size() - 1]->velSim() << endl;
+
 	cout << "________________________" << endl;
 }
 

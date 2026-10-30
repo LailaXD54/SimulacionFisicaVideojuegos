@@ -1,48 +1,28 @@
 #include "Projectils.h"
 
-const float g = 9.8f;
-
-Projectils::Projectils(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, float Damping, float factor, float gravedad, bool hitscan):
-Particle(masa, Pos, Vel, Accerelacion,Damping), factor(factor), gravedad(gravedad), hitscan(hitscan)
+Projectils::Projectils(float masa, Vector3D Pos, Vector3D Dir, float vel, float simVel, float gravedad) :
+	Particle(masa, Pos, Dir, Vector3D(0, 0, 0)), gravedad(gravedad), velocidad(vel), vel_sim(simVel)
 {
 
 }
 
-Projectils::Projectils(float masa, Vector3D Pos, Vector3D Vel, Vector3D Accerelacion, physx::PxShape* shape, float Damping, float factor, float gravedad, bool hitscan) :
-	Particle(masa, Pos, Vel, Accerelacion, shape, Damping), factor(factor), gravedad(gravedad), hitscan(hitscan)
+Projectils::Projectils(float masa, Vector3D Pos, Vector3D Dir, physx::PxShape* shape, float vel, float simVel, float gravedad) :
+	Particle(masa, Pos, Dir, Vector3D(0, 0, 0), shape), gravedad(gravedad), velocidad(vel), vel_sim(simVel)
 {
 
 }
 
-void Projectils::pRelentizado(double dt) {
-	Vector3D vel_s = velSim();
 
-	pose.p += vel_s.toPxVec3() * dt;
-	vel.setY(vel.getY() - gravedad * factor * dt);
-	
+void Projectils::calculateGravity(float realVel, float simVel) {
+	float ratio = simVel / realVel;
+	simGravity = gravedad * (ratio * ratio);
 }
 
-void Projectils::hitScan(double dt) {
-	integrateSemiEuler(dt);
-}
 
-Vector3D Projectils::velSim() {
-	return vel * factor;
-}
+void Projectils::disparar(double dt) {
+	calculateGravity(velocidad, vel_sim);
 
-float Projectils::masaSim() {
-	return masa / (factor * factor);
-}
+	acc = Vector3D(0, simGravity, 0);
 
-void Projectils::addMasa(float m) {
-	masa += m;
-}
-
-void Projectils::addVel(Vector3D v) {
-	vel += v;
-}
-
-void Projectils::update(double dt) {
-	if (hitscan) hitScan(dt);
-	else pRelentizado(dt);
+	Particle::integrateSemiEuler(dt);
 }
