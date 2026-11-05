@@ -1,5 +1,7 @@
 #include "P2S_Scene.h"
 #include <iostream>
+#include "SceneManager.h"
+
 using namespace std;
 
 void P2S_Scene::init() {
@@ -12,15 +14,17 @@ void P2S_Scene::init() {
 	confeti->setPosGause(false);
 	confeti->setColorGause(true);
 	p_pg = confeti;
+
+	p_sys->addGenerator(p_pg);
 }
 
 void P2S_Scene::update(double dt) {
-	if(p_sys && p_pg) p_sys->update(p_pg, dt);
+	if(p_sys && p_pg) p_sys->update(dt);
 	
 }
 
 void P2S_Scene::keyPress(unsigned char key, const physx::PxTransform& cameraTransform) {
-
+	if(key == 'p'||key =='P') SceneManager::instance().changeScene("P0S_Scene");
 }
 
 

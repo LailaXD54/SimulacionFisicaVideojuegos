@@ -31,6 +31,9 @@ public: //cambiar para que sea la gravedad que se cambie
 	Vector3D getVel() const { return vel; }
 	float getInvMass() const { return masa > 0 ? 1.0f / masa : 0.0f; }
 
+	void setFading(const Vector4& f) { fading = f; }
+	Vector4 getFading() const { return fading; }
+
 protected:
 	Vector3D vel;
 	Vector3D acc;
@@ -47,5 +50,6 @@ protected:
 	bool alive = true;
 
 	Vector3D force = Vector3D(0, 0, 0);
+	Vector4 fading = Vector4(0, 0, 0, 0);
 };
 

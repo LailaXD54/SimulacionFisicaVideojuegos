@@ -45,6 +45,10 @@ void P1S_Scene::init() {
     genHeavy->setMass(5.0f);
 
     setMode(0);
+
+    psLight->addGenerator(genLight);
+    psHeavy->addGenerator(genHeavy);
+
 }
 
 void P1S_Scene::setMode(int m) {
@@ -67,6 +71,12 @@ void P1S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
     case 'l':
         if (mode == 3) explosion->trigger();
         break;
+    case 'k':  // activar/desactivar el generador de partículas ligeras
+        psLight->toggleGenerator(0);
+        break;
+    case 'j':  // activar/desactivar el generador de partículas pesadas
+        psHeavy->toggleGenerator(0);
+        break;
     case 'p': SceneManager::instance().changeScene("P2S_Scene");
     default:
         break;
@@ -77,9 +87,9 @@ void P1S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
 void P1S_Scene::update(double dt) {
     for (ForceGenerator* f : allForces) f->update(dt);
 
-    psLight->update(genLight, dt);
+    psLight->update(dt);
 
-    psHeavy->update(genHeavy, dt);
+    psHeavy->update(dt);
 }
 
 void P1S_Scene::cleanup(){

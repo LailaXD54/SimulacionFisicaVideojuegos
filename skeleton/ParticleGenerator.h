@@ -73,4 +73,6 @@ public:
 	float getDamping() {return damping;}
 	void setDamping(float d) { damping = d; }
 
+	bool active = true;
+	float acumulador = 0.0f;
  };

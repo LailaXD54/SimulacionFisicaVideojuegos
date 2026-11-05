@@ -4,7 +4,6 @@
 
 ParticleSystem::ParticleSystem(float emisiones):
 	t_emisiones(emisiones) {
-	accumulador = 0.0f;
 }
 
 ParticleSystem::~ParticleSystem() {
@@ -12,15 +11,17 @@ ParticleSystem::~ParticleSystem() {
 	v_particle.clear();
 }
 
-void ParticleSystem::update(ParticleGenerator* _pg,double dt){
-	accumulador += dt;
-	float intervalo = 1.0f / t_emisiones;
-	while (accumulador >= intervalo) {
-		v_particle.push_back(_pg->getNewParticle());
-		accumulador -= intervalo;
-	}
+void ParticleSystem::update(double dt){
+	for (ParticleGenerator* g : generators) {
+		if (!g || !g->active) continue;
 
-	Vector4 color_fading = _pg->getFading();
+		g->acumulador += dt;
+		float intervalo = 1.0f / t_emisiones;
+		while (g->acumulador >= intervalo) {
+			v_particle.push_back(g->getNewParticle());
+			g->acumulador -= intervalo;
+		}
+	}
 
 	for (Particle* p : v_particle) {
 		if (!p) continue;
@@ -30,7 +31,7 @@ void ParticleSystem::update(ParticleGenerator* _pg,double dt){
 
 		p->integrateSemiEuler(dt);
 		
-		p->setColor(p->getColor() - color_fading*dt);
+		p->setColor(p->getColor() - p->getFading()*dt);
 
 		p->updateLife(dt);
 	}
@@ -45,3 +46,21 @@ void ParticleSystem::update(ParticleGenerator* _pg,double dt){
 	v_particle.erase(it, v_particle.end());
 }
 
+void ParticleSystem::addGenerator(ParticleGenerator* g) {
+	if (g) generators.push_back(g);
+}
+
+void ParticleSystem::removeGenerator(ParticleGenerator* g) {
+	auto it = std::find(generators.begin(), generators.end(), g);
+	if (it != generators.end()) generators.erase(it);
+}
+
+void ParticleSystem::setGeneratorActive(int index, bool active) {
+	if (index >= 0 && index < (int)generators.size())
+		generators[index]->active = active;
+}
+
+void ParticleSystem::toggleGenerator(int index) {
+	if (index >= 0 && index < (int)generators.size())
+		generators[index]->active = !generators[index]->active;
+}

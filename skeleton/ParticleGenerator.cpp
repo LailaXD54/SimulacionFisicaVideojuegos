@@ -44,6 +44,7 @@ Particle* ParticleGenerator::getNewParticle() {
 
     Particle* p = new Particle(masa, this_pos, this_vel, accel, shape, damping, lifeTime);
     p->setColor(this_color);
+    p->setFading(colorfade);
     return p;
 }
 
