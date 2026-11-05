@@ -24,8 +24,9 @@ private:
 	Vector3D vel;
 	bool gausse;
 
-	Vector3D desv;
-	Vector3D posA, posB;
+	Vector3D desvVel, desvPos;
+	Vector3D velMin, velMax;
+	Vector3D posMin, posMax;
 
 	//caracteristicas de las particulas
 	Vector4 color;
@@ -43,15 +44,18 @@ private:
 	
 public:
 	//pos, vel, desv, color, tam, lifeTime, *shape, gause
-	ParticleGenerator(Vector3D pos, Vector3D vel, Vector3D desv, Vector4 color, float tam, float lifeTime, physx::PxShape* shape,Vector3D posA, Vector3D posB,bool gausse = true);
-	
-	Particle* getNewParticle();
+	ParticleGenerator(Vector3D pos, Vector3D vel, Vector4 color, float tam, float lifeTime, physx::PxShape* shape, bool gausse = true);
 
-	void setGaus(bool g) { gausse = g; }
-	void setVelRange(Vector3D mn, Vector3D mx) { posA = mn; posB = mx; }
+	void setDesvVel(Vector3D d) { desvVel = d; }
+	void setDesvPos(Vector3D d) { desvPos = d; }
+	void setVelRange(Vector3D mn, Vector3D mx) { velMin = mn; velMax = mx; }
+	void setPosRange(Vector3D mn, Vector3D mx) { posMin = mn; posMax = mx; }
+
+	Particle* getNewParticle();
 
 	float getValues(float posA, float posB);
 
+	void setGaus(bool g) { gausse = g; }
 	void setColorGause(bool c) { color_g = c; }
 	void setVelGause(bool c) { vel_g = c; }
 	void setPosGause(bool c) { pos_g = c; }

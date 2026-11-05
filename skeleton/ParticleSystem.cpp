@@ -28,9 +28,6 @@ void ParticleSystem::update(ParticleGenerator* _pg,double dt){
 		
 		p->setColor(p->getColor() - color_fading*dt);
 
-		//std::cout << p->getColor().getXYZ()<<"\n";
-
-
 		p->updateLife(dt);
 	}
 

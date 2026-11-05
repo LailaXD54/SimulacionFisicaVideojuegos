@@ -19,9 +19,8 @@ public:
     void cleanup() override;
 
 private:
-    Particle* p_particle;
-    ParticleSystem* p_ps;
-    ParticleGenerator* p_pg;
+    std::vector<ParticleSystem*> p_sys;
+    std::vector<ParticleGenerator*> p_pg;
 
 };
 
