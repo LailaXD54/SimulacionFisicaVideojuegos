@@ -28,6 +28,14 @@ void P0S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
         simVel = 20.0f;
         disparar = true;
     }
+    if (key == 'n' || key == 'N') {
+        masa = 20.0f;
+        vel = 60.0f;
+        simVel = 20.0f;
+        disparar = true;
+        gravedad = -90.81;
+    }
+
     if (key == 'p' || key == 'P') {
         SceneManager::instance().changeScene("P1S_Scene");
     }
