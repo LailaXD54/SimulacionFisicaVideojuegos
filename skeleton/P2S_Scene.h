@@ -1,6 +1,9 @@
 #pragma once
 #include "Scene.h"
 #include "Projectils.h"
+#include "ParticleGenerator.h"
+#include "ParticleSystem.h"
+
 class P2S_Scene :
     public Scene
 {
@@ -15,9 +18,8 @@ public:
 
     void cleanup() override;
 
-    void write();
-
 private:
-    std::vector<Projectils*> v_pro;
+    ParticleSystem* p_sys = nullptr;
+    ParticleGenerator* p_pg = nullptr;
 };
 

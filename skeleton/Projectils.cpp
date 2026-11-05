@@ -1,13 +1,13 @@
 #include "Projectils.h"
 
 Projectils::Projectils(float masa, Vector3D Pos, Vector3D Dir, float vel, float simVel, float gravedad) :
-	Particle(masa, Pos, Dir, Vector3D(0, 0, 0)), gravedad(gravedad), velocidad(vel), vel_sim(simVel)
+	Particle(masa, Pos, Dir * simVel, Vector3D(0, 0, 0)), gravedad(gravedad), velocidad(vel), vel_sim(simVel)
 {
 
 }
 
 Projectils::Projectils(float masa, Vector3D Pos, Vector3D Dir, physx::PxShape* shape, float vel, float simVel, float gravedad) :
-	Particle(masa, Pos, Dir, Vector3D(0, 0, 0), shape), gravedad(gravedad), velocidad(vel), vel_sim(simVel)
+	Particle(masa, Pos, Dir * simVel, Vector3D(0, 0, 0), shape), gravedad(gravedad), velocidad(vel), vel_sim(simVel)
 {
 
 }

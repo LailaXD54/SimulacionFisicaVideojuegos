@@ -1,15 +1,9 @@
 #pragma once
 #include "Scene.h"
 #include "RenderUtils.hpp"
-#include "ParticleSystem.h"
-#include "ParticleGenerator.h"
-#include "ForceGenerator.h"
 #include <vector>
 
-#include "GravityForce.h"
-#include "WindForce.h"
-#include "WhirlForce.h"
-#include "ExplosionForce.h"
+#include "Projectils.h"
 
 class P0S_Scene : public Scene
 {
@@ -22,21 +16,10 @@ public:
     void keyPress(unsigned char key, const physx::PxTransform& cameraTransform) override;
 
 private:
-    void setMode(int m);
+    std::vector<Projectils*> v_pro;
 
-    // Dos sistemas: partículas ligeras y pesadas
-    ParticleSystem* psLight = nullptr;
-    ParticleSystem* psHeavy = nullptr;
-    ParticleGenerator* genLight = nullptr;
-    ParticleGenerator* genHeavy = nullptr;
-
-    // Fuerzas
-    GravityForce* gravity = nullptr;
-    WindForce* wind = nullptr;
-    WhirlForce* whirl = nullptr;
-    ExplosionForce* explosion = nullptr;
-
-    std::vector<ForceGenerator*> allForces;
-    int mode = 0;
+    RenderItem* boton = nullptr;
+    physx::PxTransform* botonPose = nullptr;
+    physx::PxShape* botonShape = nullptr;
 };
 

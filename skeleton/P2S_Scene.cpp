@@ -3,68 +3,36 @@
 using namespace std;
 
 void P2S_Scene::init() {
-
+	p_sys = new ParticleSystem(80.0f);
+	physx::PxShape* shapeConfeti = CreateShape(physx::PxBoxGeometry(0.15f, 0.02f, 0.15f));
+	
+	ParticleGenerator* confeti = new ParticleGenerator(Vector3D(0, 30, 0), Vector3D(0, -18, 0), Vector4(1, 1, 1, 1), 2.0f, 4.0f, shapeConfeti);
+	confeti->setDesvVel(Vector3D(6, 4, 6));
+	confeti->setVelGause(true);
+	confeti->setPosGause(false);
+	confeti->setColorGause(true);
+	p_pg = confeti;
 }
 
 void P2S_Scene::update(double dt) {
-	for (Projectils* item : v_pro) {
-		if (item) item->disparar(dt);
-	}
+	if(p_sys && p_pg) p_sys->update(p_pg, dt);
+	
 }
 
 void P2S_Scene::keyPress(unsigned char key, const physx::PxTransform& cameraTransform) {
 
-	float masa=0, vel=0, simVel = 0, gravedad=-9.81f;
-	switch (key) {
-	case 'b': { //disparo 
-		masa = 100.0f;
-		vel = 500.0f;
-		simVel = 499.0f;
-		gravedad = -5;
-		write();
-		break;
-	}
-
-	case 'm': { //proyectil fuerte
-		masa = 15.0f;
-		vel = 100.0f;
-		simVel = 10.0f;
-
-		write();
-		break;
-	}
-	case 'n': { //bubble
-		masa = 1.0f;
-		vel = 10.0f;
-		simVel = 2.0f;
-		gravedad = -4.81f;
-
-		write();
-		break;
-	}
-	
-
-	default:
-		break;
-	}
-
-	v_pro.push_back(new Projectils(masa, Vector3D(GetCamera()->getEye()), Vector3D(GetCamera()->getDir()), vel, simVel, gravedad));
-
-
-	
 }
 
-void P2S_Scene:: write() {
-
-	cout << "________________________" << endl;
-}
 
 void P2S_Scene::cleanup() {
-	for (Projectils* item : v_pro) {
-		if (item) {
-			delete item;
-			item = nullptr;
-		}
+	if (p_sys) { 
+		delete p_sys; 
+		p_sys = nullptr;
 	}
-	v_pro.clear();
+
+	if (p_pg) {
+		delete p_pg;
+		p_pg = nullptr;
+	}
+
 }

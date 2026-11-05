@@ -1,85 +1,47 @@
 #include "P0S_Scene.h"
+#include "SceneManager.h"
 #include <iostream>
 
 void P0S_Scene:: init(){
-    //las fuerzas
-    gravity = new GravityForce(Vector3D(0, -10, 0));
-    wind = new WindForce(Vector3D(15, 0, 0), Vector3D(0, 10, 0), Vector3D(25, 25, 25), 1.0f);
-    whirl = new WhirlForce(Vector3D(0, 10, 0), Vector3D(25, 25, 25), 0.3f, 1.0f);
-    explosion = new ExplosionForce(Vector3D(0, 5, 0), 300.0f, 30.0f, 1.0f);
+    Vector3D camPos(GetCamera()->getEye());
+    Vector3D camDir(GetCamera()->getDir());
+    camDir.normalize();
+    Vector3D buttonPos = camPos + camDir * 10.0f;
 
-    allForces = { gravity, wind, whirl, explosion };
-
-    //sistemas de partículas
-    psLight = new ParticleSystem(30.0f);
-    for (ForceGenerator* f : allForces) {
-        psLight->addForce(f);
-    }
-    psLight->setMaxDistance(150.0f);
- 
-
-    //generadores
-    physx::PxShape* shapeLight = CreateShape(physx::PxSphereGeometry(0.6f));
-
-    genLight = new ParticleGenerator(Vector3D(-3, 0, 0), Vector3D(0, 15, 0),
-        Vector4(1.0f, 1.0f, 1.0f, 1.0f), 0.3f, 6.0f, shapeLight);
-    genLight->setVelGause(true);
-    genLight->setDesvVel(Vector3D(0.3f, 0.3f, 0.3f));
-    genLight->setPosGause(true);
-    genLight->setDesvPos(Vector3D(5, 5, 5));
-    genLight->setMass(3.0f);
-
-    setMode(0);
-}
-
-void P0S_Scene::setMode(int m) {
-    mode = m;
-
-    // La gravedad siempre activa; el resto según el modo
-    gravity->active = true;
-    wind->active = (mode == 1);
-    whirl->active = (mode == 2);
-    explosion->active = (mode == 3);
-
-    const char* names[] = { "Gravedad", "Viento", "Torbellino", "Explosion (pulsa L)" };
-    std::cout << "Modo: " << names[mode] << std::endl;
+    botonShape = CreateShape(physx::PxBoxGeometry(2.0f, 1.0f, 0.1f));
+    botonPose = new physx::PxTransform(buttonPos.toPxVec3());
+    boton = new RenderItem(botonShape, botonPose, Vector4(0.2f, 0.8f, 0.2f, 1.0f));
 }
 
 void P0S_Scene::update(double dt) {
-    for (ForceGenerator* f : allForces) f->update(dt);
-
-    psLight->update(genLight, dt);
+    for (Projectils* item : v_pro) {
+        if (item) item->disparar(dt);
+    }
 }
 
 void P0S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
-    switch (key) {
-    case 'u': setMode(0); break;
-    case 'i': setMode(1); break;
-    case 'o': setMode(2); break;
-    case 'p': setMode(3); break;
-    case 'l':
-        if (mode == 3) explosion->trigger();
-        break;
-    case '+': { 
-        genLight->setMass(genLight->getMass() + 0.5f); 
-        std::cout << genLight->getMass()<<"\n";
-        break; }
-    case '-':
-    {
-        genLight->setMass(genLight->getMass() - 0.5f);
-        std::cout << genLight->getMass() << "\n";
-        break;
+    bool disparar = false;
+    float masa = 0, vel = 0, simVel = 0, gravedad = 0;
+    if (key == 'b' || key == 'B') {
+        masa = 20.0f;
+        vel = 60.0f;
+        simVel = 20.0f;
+        disparar = true;
     }
-    default:
-        break;
+    if (key == 'p' || key == 'P') {
+        SceneManager::instance().changeScene("P1S_Scene");
+    }
+
+    if (disparar) {
+        v_pro.push_back(new Projectils(masa,Vector3D(GetCamera()->getEye()),Vector3D(GetCamera()->getDir()),vel, simVel, gravedad));
     }
 }
 
 void P0S_Scene::cleanup() {
-    delete psLight;  psLight = nullptr;
-    delete genLight; genLight = nullptr;
+    for (Projectils* item : v_pro) {
+        if (item) { delete item; item = nullptr; }
+    }
+    v_pro.clear();
 
-    for (ForceGenerator* f : allForces) delete f;
-    allForces.clear();
-    gravity = nullptr; wind = nullptr; whirl = nullptr; explosion = nullptr;
+    if (boton) { boton->release(); boton = nullptr; }
 }
