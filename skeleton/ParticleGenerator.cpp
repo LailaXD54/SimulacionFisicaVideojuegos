@@ -42,8 +42,7 @@ Particle* ParticleGenerator::getNewParticle() {
     if (color_g)
         this_color = Vector4(g(_mt), g(_mt), g(_mt), color.w);
 
-    Vector3D acc(0.0f, -10.0f, 0.0f);
-    Particle* p = new Particle(1.0f, this_pos, this_vel, acc, shape, 1.0f, lifeTime);
+    Particle* p = new Particle(masa, this_pos, this_vel, accel, shape, damping, lifeTime);
     p->setColor(this_color);
     return p;
 }

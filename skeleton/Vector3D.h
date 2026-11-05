@@ -83,3 +83,5 @@ inline std::ostream& operator<<(std::ostream& os, const Vector3D& other) {
 	os << "(" << other.x << ", " << other.y << ", " << other.z << ")";
 	return os;
 }
+
+inline Vector3D operator*(float s, const Vector3D& v) { return v * s; }

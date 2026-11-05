@@ -1,94 +1,85 @@
 #include "P0S_Scene.h"
-#include "Vector3D.h"
+#include <iostream>
 
 void P0S_Scene:: init(){
-    /*
-	// Ejemplo: Creación de una esfera usando las utilidades de render existentes
-    physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(2.0f));
+    //las fuerzas
+    gravity = new GravityForce(Vector3D(0, -10, 0));
+    wind = new WindForce(Vector3D(15, 0, 0), Vector3D(0, 10, 0), Vector3D(25, 25, 25), 1.0f);
+    whirl = new WhirlForce(Vector3D(0, 10, 0), Vector3D(25, 25, 25), 0.3f, 1.0f);
+    explosion = new ExplosionForce(Vector3D(0, 5, 0), 300.0f, 30.0f, 1.0f);
 
-    m_transform = physx::PxTransform(Vector3D(0.0f, 0.0f, 0.0f).toPxVec3());
+    allForces = { gravity, wind, whirl, explosion };
 
-    // Se registra el RenderItem exactamente como en la plantilla original
-    m_renderItem = new RenderItem(shape, &m_transform, Vector4(1.0f, 0.0f, 0.0f, 1.0f)); //esfera roja
-	*/
+    //sistemas de partículas
+    psLight = new ParticleSystem(30.0f);
+    for (ForceGenerator* f : allForces) {
+        psLight->addForce(f);
+    }
+    psLight->setMaxDistance(150.0f);
+ 
 
-	//Reto A 
-	RetoA();
+    //generadores
+    physx::PxShape* shapeLight = CreateShape(physx::PxSphereGeometry(0.6f));
 
-	//Reto B
-	//RetoB();
+    genLight = new ParticleGenerator(Vector3D(-3, 0, 0), Vector3D(0, 15, 0),
+        Vector4(1.0f, 1.0f, 1.0f, 1.0f), 0.3f, 6.0f, shapeLight);
+    genLight->setVelGause(true);
+    genLight->setDesvVel(Vector3D(0.3f, 0.3f, 0.3f));
+    genLight->setPosGause(true);
+    genLight->setDesvPos(Vector3D(5, 5, 5));
+    genLight->setMass(3.0f);
+
+    setMode(0);
+}
+
+void P0S_Scene::setMode(int m) {
+    mode = m;
+
+    // La gravedad siempre activa; el resto según el modo
+    gravity->active = true;
+    wind->active = (mode == 1);
+    whirl->active = (mode == 2);
+    explosion->active = (mode == 3);
+
+    const char* names[] = { "Gravedad", "Viento", "Torbellino", "Explosion (pulsa L)" };
+    std::cout << "Modo: " << names[mode] << std::endl;
 }
 
 void P0S_Scene::update(double dt) {
-	
+    for (ForceGenerator* f : allForces) f->update(dt);
+
+    psLight->update(genLight, dt);
 }
 
 void P0S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
+    switch (key) {
+    case 'u': setMode(0); break;
+    case 'i': setMode(1); break;
+    case 'o': setMode(2); break;
+    case 'p': setMode(3); break;
+    case 'l':
+        if (mode == 3) explosion->trigger();
+        break;
+    case '+': { 
+        genLight->setMass(genLight->getMass() + 0.5f); 
+        std::cout << genLight->getMass()<<"\n";
+        break; }
+    case '-':
+    {
+        genLight->setMass(genLight->getMass() - 0.5f);
+        std::cout << genLight->getMass() << "\n";
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void P0S_Scene::cleanup() {
-	for (RenderItem* item : m_renderItems) {
-		if (item) item->release();
-	}
-	m_renderItems.clear();
-	m_transforms.clear();
-}
+    delete psLight;  psLight = nullptr;
+    delete genLight; genLight = nullptr;
 
-void P0S_Scene::RetoA() {
-	Vector3D cero;
-	Vector3D u (3.0f, 0.0f, 0.0f);
-	Vector3D v (0.0f, 4.0f, 0.0f);
-	Vector3D w = u.cross(v);
-
-	int mult =2;
-
-	u = u.normalize() * mult;
-	v = v.normalize() * mult;
-	w = w.normalize() * mult;
-
-	u = u * 5.0f;
-	v = v * 5.0f;
-	w = w * 5.0f;
-
-	physx::PxShape* p1 = CreateShape(physx::PxSphereGeometry(1.0f));
-
-	m_transforms.push_back(physx::PxTransform(u.toPxVec3()));
-	m_transforms.push_back(physx::PxTransform(v.toPxVec3()));
-	m_transforms.push_back(physx::PxTransform(w.toPxVec3()));
-	m_transforms.push_back(physx::PxTransform(cero.toPxVec3()));
-
-
-	m_renderItems.push_back(new RenderItem(p1, &m_transforms[0], Vector4(1, 0, 0, 1))); // rojo
-	m_renderItems.push_back(new RenderItem(p1, &m_transforms[1], Vector4(0, 1, 0, 1))); // verde
-	m_renderItems.push_back(new RenderItem(p1, &m_transforms[2], Vector4(0, 0, 1, 1))); // azul
-	m_renderItems.push_back(new RenderItem(p1, &m_transforms[3], Vector4(1, 1, 1, 1)));
-}
-
-void P0S_Scene::RetoB(){
-	Vector3D pos;
-	Vector3D d (0.0f, 0.0f, 1.0f);
-	physx::PxShape* p1 = CreateShape(physx::PxSphereGeometry(2.0f));
-	
-	Vector3D P1(2.0f, 0.0f, 3.0f);
-	Vector3D P2(-4.0f, 0.0f, 1.0f);
-	Vector3D P3(0.0f, 0.0f, -5.0f);
-	Vector3D P4(3.0f, 0.0f, 0.0f);
-	std::vector<Vector3D> puntos = { P1, P2, P3, P4 };
-
-	m_transforms.reserve(4);
-	m_renderItems.reserve(4);
-
-	for (int i = 0; i < 4;++i) {
-		Vector3D v = puntos[i] - pos;
-		float dot = d.dot(v);
-
-		Vector4 color;
-		if (dot > 0.0f) color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-		else if (dot < 0.0f) color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-		else color = Vector4(1.0f, 1.0f, 0.0f, 1.0f);
-
-		physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(0.4f));
-		m_transforms.push_back(physx::PxTransform(puntos[i].toPxVec3()));
-		m_renderItems.push_back(new RenderItem(shape, &m_transforms.back(), color));
-	}
+    for (ForceGenerator* f : allForces) delete f;
+    allForces.clear();
+    gravity = nullptr; wind = nullptr; whirl = nullptr; explosion = nullptr;
 }

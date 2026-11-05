@@ -24,6 +24,10 @@ void ParticleSystem::update(ParticleGenerator* _pg,double dt){
 
 	for (Particle* p : v_particle) {
 		if (!p) continue;
+
+		for (ForceGenerator* f : forces)
+			if (f->active) p->addForce(f->getForce(p));
+
 		p->integrateSemiEuler(dt);
 		
 		p->setColor(p->getColor() - color_fading*dt);

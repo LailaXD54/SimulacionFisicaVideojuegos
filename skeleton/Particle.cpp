@@ -46,13 +46,15 @@ void Particle::integrate(double t) {
 }
 
 void Particle::integrateSemiEuler(double t) {
-	Vector3D newVel = (vel + acc * t) * std::pow(d, t);
+	Vector3D a = acc + force * getInvMass();
+	Vector3D newVel = (vel + a * t) * std::pow(d, t);
 	Vector3D newPos = Vector3D(pose.p) + newVel * t;
 
 	vel = newVel;
 	pose.p = newPos.toPxVec3();
 
 	acc = 0;
+	force = Vector3D(0, 0, 0);
 }
 
 void Particle::integrateVerlet(double t) {	

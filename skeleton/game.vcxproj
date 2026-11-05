@@ -262,6 +262,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="ExplosionForce.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="P0S_Scene.cpp" />
     <ClCompile Include="P1S_Scene.cpp" />
@@ -275,11 +276,16 @@
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="WhirlForce.cpp" />
+    <ClCompile Include="WindForce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="EmptyScene.h" />
+    <ClInclude Include="ExplosionForce.h" />
+    <ClInclude Include="ForceGenerator.h" />
+    <ClInclude Include="GravityForce.h" />
     <ClInclude Include="P0S_Scene.h" />
     <ClInclude Include="P1S_Scene.h" />
     <ClInclude Include="P2S_Scene.h" />
@@ -293,6 +299,8 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="WhirlForce.h" />
+    <ClInclude Include="WindForce.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

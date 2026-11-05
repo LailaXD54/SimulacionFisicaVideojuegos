@@ -41,9 +41,12 @@ private:
 	bool vel_g, pos_g, color_g;
 
 	Vector4 colorfade;
-	
+
+	float masa = 1.0f;
+	Vector3D accel = Vector3D(0, 0, 0);
+	float damping = 1.0f;
+
 public:
-	//pos, vel, desv, color, tam, lifeTime, *shape, gause
 	ParticleGenerator(Vector3D pos, Vector3D vel, Vector4 color, float tam, float lifeTime, physx::PxShape* shape, bool gausse = true);
 
 	void setDesvVel(Vector3D d) { desvVel = d; }
@@ -63,4 +66,11 @@ public:
 	void setFading(Vector4 color) { colorfade = color; }
 
 	Vector4 getFading() const { return colorfade; }
+
+	void setMass(float m) { masa = m; }
+	float getMass() { return masa; }
+	void setAcc(Vector3D a) { accel = a; }
+	float getDamping() {return damping;}
+	void setDamping(float d) { damping = d; }
+
  };
