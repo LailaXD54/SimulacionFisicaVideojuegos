@@ -19,16 +19,30 @@ void P1S_Scene::init() {
     psLight->setMaxDistance(150.0f);
 
 
+    psHeavy = new ParticleSystem(30.0f);
+    for (ForceGenerator* f : allForces) {
+        psHeavy->addForce(f);
+    }
+    psHeavy->setMaxDistance(150.0f);
+
     //generadores
     physx::PxShape* shapeLight = CreateShape(physx::PxSphereGeometry(0.6f));
 
-    genLight = new ParticleGenerator(Vector3D(-3, 0, 0), Vector3D(0, 15, 0),
-        Vector4(1.0f, 1.0f, 1.0f, 1.0f), 0.3f, 6.0f, shapeLight);
+    genLight = new ParticleGenerator(Vector3D(-5, 0, 0), Vector3D(0, 15, 0),
+        Vector4(1.0f, 0.0f, 0.0f, 1.0f), 0.3f, 6.0f, shapeLight);
     genLight->setVelGause(true);
     genLight->setDesvVel(Vector3D(0.3f, 0.3f, 0.3f));
     genLight->setPosGause(true);
     genLight->setDesvPos(Vector3D(5, 5, 5));
-    genLight->setMass(3.0f);
+    genLight->setMass(1.0f);
+
+    genHeavy = new ParticleGenerator(Vector3D(5, 0, 0), Vector3D(0, 15, 0),
+        Vector4(0.0f, 0.0f, 1.0f, 1.0f), 0.3f, 6.0f, shapeLight);
+    genHeavy->setVelGause(true);
+    genHeavy->setDesvVel(Vector3D(0.3f, 0.3f, 0.3f));
+    genHeavy->setPosGause(true);
+    genHeavy->setDesvPos(Vector3D(5, 5, 5));
+    genHeavy->setMass(5.0f);
 
     setMode(0);
 }
@@ -53,17 +67,6 @@ void P1S_Scene::keyPress(unsigned char key, const physx::PxTransform& camera) {
     case 'l':
         if (mode == 3) explosion->trigger();
         break;
-    case '+': {
-        genLight->setMass(genLight->getMass() + 0.5f);
-        std::cout << genLight->getMass() << "\n";
-        break;
-    }
-    case '-':
-    {
-        genLight->setMass(genLight->getMass() - 0.5f);
-        std::cout << genLight->getMass() << "\n";
-        break;
-    }
     case 'p': SceneManager::instance().changeScene("P2S_Scene");
     default:
         break;
@@ -75,11 +78,15 @@ void P1S_Scene::update(double dt) {
     for (ForceGenerator* f : allForces) f->update(dt);
 
     psLight->update(genLight, dt);
+
+    psHeavy->update(genHeavy, dt);
 }
 
 void P1S_Scene::cleanup(){
     delete psLight;  psLight = nullptr;
+    delete psHeavy;  psHeavy = nullptr;
     delete genLight; genLight = nullptr;
+    delete genHeavy; genHeavy = nullptr;
 
     for (ForceGenerator* f : allForces) delete f;
     allForces.clear();
