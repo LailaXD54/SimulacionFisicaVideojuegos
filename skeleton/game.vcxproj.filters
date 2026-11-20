@@ -40,6 +40,9 @@
     <ClCompile Include="BuoyancyForce.cpp">
       <Filter>Forces</Filter>
     </ClCompile>
+    <ClCompile Include="MuelleScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="BuoyancyForce.h">
       <Filter>Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="MuelleScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

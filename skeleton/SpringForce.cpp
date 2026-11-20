@@ -1,25 +1,32 @@
 #include "SpringForce.h"
 
-Vector3D SpringForce:: getForce(Particle* p) {
-    // 1. Posición del otro extremo (anclaje o partícula)
-    Vector3D otherPos = (other != nullptr) ? other->getPosition() : anchor;
+SpringForce::SpringForce(Vector3D anchor, float k, float restLenght, float b, bool elastic) : anchor(anchor), k(k), restLength(restLenght), b(b), elastic(elastic) {
+}
+SpringForce::SpringForce(Particle* other, float k, float restLenght, float b, bool elastic) : other(other), k(k), restLength(restLenght), b(b), elastic(elastic) {
+}
 
-    // 2. Vector y distancia actual
-    Vector3D dir = p->getPosition() - otherPos;
+Vector3D SpringForce:: getForce(Particle* p) {
+    //Posición del otro extremo
+    Vector3D otherPos = (other != nullptr) ? other->getPos() : anchor;
+
+    //Vector y distancia actual
+    Vector3D dir = p->getPos() - otherPos;
     float dist = dir.magnitude();
 
-    // 3. Evitar división por cero
+    //Evitar división por cero
     if (dist < 1e-6f) return Vector3D(0, 0, 0);
 
-    // 4. Dirección normalizada
     Vector3D u = dir / dist;
 
-    // 5. Ley de Hooke: F = -k · (dist - restLength) · û
+    //Ley de Hooke
     float stretch = dist - restLength;
 
-    // 6. Goma elástica: solo actúa si se estira
+    //Goma elástica: solo actúa si se estira
     if (elastic && stretch < 0.0f) return Vector3D(0, 0, 0);
 
-    return u * (-k * stretch);
-}
+    //Amortiguado  
+    Vector3D otherVel = (other != nullptr) ? other->getVel() : Vector3D(0, 0, 0);
+    float relVel = (p->getVel() - otherVel).dot(u);
+
+    return u * (-k * stretch - b * relVel);
 };

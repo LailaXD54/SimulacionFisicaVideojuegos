@@ -265,6 +265,7 @@
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="ExplosionForce.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MuelleScene.cpp" />
     <ClCompile Include="P0S_Scene.cpp" />
     <ClCompile Include="P1S_Scene.cpp" />
     <ClCompile Include="P2S_Scene.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="ExplosionForce.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GravityForce.h" />
+    <ClInclude Include="MuelleScene.h" />
     <ClInclude Include="P0S_Scene.h" />
     <ClInclude Include="P1S_Scene.h" />
     <ClInclude Include="P2S_Scene.h" />

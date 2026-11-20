@@ -2,7 +2,9 @@
 #include "ForceGenerator.h"
 // BuoyancyForce.h
 class BuoyancyForce : public ForceGenerator {
-    float height, volume, liquidDensity, surfaceY;
+    float height, volume, liquidDensity, surfaceY, gravity;
 public:
-    Vector3D getForce(Particle* p) override;  // aplica fórmula del PDF
+    BuoyancyForce(float height, float volume, float liquidDensity, float surfaceY, float gravity = 9.8f);
+
+    Vector3D getForce(Particle* p) override;
 };

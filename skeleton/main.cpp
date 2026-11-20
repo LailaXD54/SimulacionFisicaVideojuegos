@@ -25,7 +25,7 @@
 #include "P0S_Scene.h"
 #include "P1S_Scene.h"
 #include "P2S_Scene.h"
-
+#include "MuelleScene.h"
 
 #include <foundation/PxSimpleTypes.h>
 #include <PxPhysicsVersion.h> // <- Macros for PhysX version checking
@@ -105,9 +105,10 @@ void initPhysics(bool interactive)
 	SceneManager::instance().registerScene<P0S_Scene>("P0S_Scene");
 	SceneManager::instance().registerScene<P1S_Scene>("P1S_Scene");
 	SceneManager::instance().registerScene<P2S_Scene>("P2S_Scene");
+	SceneManager::instance().registerScene<MuelleScene>("MuelleScene");
 
 	// Cargar la escena inicial
-	SceneManager::instance().changeScene("P0S_Scene");
+	SceneManager::instance().changeScene("MuelleScene");
 	
 }
 
