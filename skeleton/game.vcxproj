@@ -261,6 +261,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BuoyancyForce.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="ExplosionForce.cpp" />
     <ClCompile Include="main.cpp" />
@@ -276,10 +277,12 @@
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SpringForce.cpp" />
     <ClCompile Include="WhirlForce.cpp" />
     <ClCompile Include="WindForce.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuoyancyForce.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="EmptyScene.h" />
@@ -298,6 +301,7 @@
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SpringForce.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="WhirlForce.h" />
     <ClInclude Include="WindForce.h" />
