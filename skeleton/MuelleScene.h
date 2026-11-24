@@ -37,5 +37,8 @@ private:
 
     std::vector<ForceGenerator*> allForces;
 
+    Particle* box = nullptr;
+
+
 };
 
