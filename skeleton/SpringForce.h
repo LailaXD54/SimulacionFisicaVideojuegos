@@ -10,5 +10,8 @@ public:
     SpringForce(Particle* other, float k, float restLenght, float b = 0.0f, bool elastic = false);
 
     Vector3D getForce(Particle* p) override;
+
+    float getK() const { return k; }
+    void setK(float K) { k = K; }
 };
 

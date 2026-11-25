@@ -4,6 +4,7 @@
 #include "GravityForce.h"
 #include "BuoyancyForce.h"
 #include "SpringForce.h"
+#include "WindForce.h"
 
 #include "ParticleSystem.h"
 #include "ParticleGenerator.h"
@@ -34,11 +35,18 @@ private:
 	GravityForce* gravity = nullptr;
 	BuoyancyForce* buoyancy = nullptr;
 	SpringForce* spring = nullptr;
+    SpringForce* spring_ball_1 = nullptr;
+    SpringForce* spring_ball_2 = nullptr;
+
+    WindForce* wind = nullptr;
+    bool active_wind = false;
 
     std::vector<ForceGenerator*> allForces;
 
     Particle* box = nullptr;
 
+    Particle* ball_1 = nullptr;
+    Particle* ball_2 = nullptr;
 
 };
 

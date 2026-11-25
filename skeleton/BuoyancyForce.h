@@ -7,4 +7,7 @@ public:
     BuoyancyForce(float height, float volume, float liquidDensity, float surfaceY, float gravity = 9.8f);
 
     Vector3D getForce(Particle* p) override;
+
+    float getVolume() const { return volume; }
+    void setVolume(float v) { volume = v; }
 };

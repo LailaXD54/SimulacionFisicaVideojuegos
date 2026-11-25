@@ -36,7 +36,9 @@ Particle::~Particle() {
 }
 
 void Particle::integrate(double t) {
-	Vector3D newVel = (vel + acc * t) * std::pow(d,t);
+	Vector3D a = acc + force * getInvMass();
+
+	Vector3D newVel = (vel + a * t) * std::pow(d,t);
 	Vector3D newPos = Vector3D(pose.p) + vel * t;
 
 	vel = newVel;

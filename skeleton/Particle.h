@@ -27,6 +27,7 @@ public: //cambiar para que sea la gravedad que se cambie
 	Vector4 getColor() const;
 
 	void addForce(const Vector3D& f) { force = force + f; }
+	void setMass(float mass) { masa = mass; }
 	float getMass() const { return masa; }
 	Vector3D getVel() const { return vel; }
 	float getInvMass() const { return masa > 0 ? 1.0f / masa : 0.0f; }
