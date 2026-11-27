@@ -43,6 +43,30 @@
     <ClCompile Include="MuelleScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Practica5\VientoSR.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
+    <ClCompile Include="Practica5\SistemaSolidoRigido.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
+    <ClCompile Include="Practica5\SolidoRigido.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
+    <ClCompile Include="Practica5\TorbellinoSR.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
+    <ClCompile Include="Practica5\EscenaJoints.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
+    <ClCompile Include="Practica5\EscenaSolidosRigidos.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
+    <ClCompile Include="Practica5\GravedadSR.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
+    <ClCompile Include="Practica5\EjerciciosCuaterniones.cpp">
+      <Filter>Practica5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -95,6 +119,36 @@
     <ClInclude Include="MuelleScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Practica5\VientoSR.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\TorbellinoSR.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\SistemaSolidoRigido.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\SolidoRigido.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\RegistroFuerzasSR.hpp">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\GravedadSR.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\EscenaJoints.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\EscenaSolidosRigidos.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\GeneradorFuerzaSR.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
+    <ClInclude Include="Practica5\EjerciciosCuaterniones.h">
+      <Filter>Practica5</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -105,6 +159,9 @@
     </Filter>
     <Filter Include="Forces">
       <UniqueIdentifier>{65432bcd-fad9-4274-8b70-00f398123a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Practica5">
+      <UniqueIdentifier>{36b5b521-d395-492c-bb22-3c0dbbba3367}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
