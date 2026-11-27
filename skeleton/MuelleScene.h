@@ -29,9 +29,6 @@ private:
     ParticleSystem* ps_muelle = nullptr;
     ParticleGenerator* pg_muelle = nullptr;
 
-    ParticleSystem* ps_bouyancy = nullptr;
-    ParticleGenerator* pg_bouyancy = nullptr;
-
 	GravityForce* gravity = nullptr;
 	BuoyancyForce* buoyancy = nullptr;
 	SpringForce* spring = nullptr;
@@ -47,6 +44,6 @@ private:
 
     Particle* ball_1 = nullptr;
     Particle* ball_2 = nullptr;
-
+    Particle* agua = nullptr;
 };
 

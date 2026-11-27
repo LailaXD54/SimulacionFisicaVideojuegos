@@ -7,7 +7,7 @@ void MuelleScene::init() {
 	buoyancy = new BuoyancyForce(2.0f, 100.0f,1000.0f,0.0f);
 	spring = new SpringForce(Vector3D(0,10,0), 1.0f, 0.5f, 0.2f, true);
 	wind = new WindForce(Vector3D(15, 0, 0), Vector3D(0, 10, 0), Vector3D(25, 25, 25), 1.0f);
-	allForces = { gravity, buoyancy, spring };
+	allForces = { gravity, buoyancy, spring, wind };
 
 	//Sistemas de partículas
 	ps_muelle = new ParticleSystem(30.0f);
@@ -32,8 +32,8 @@ void MuelleScene::init() {
 
 	//water
 	physx::PxShape* recShape = CreateShape(physx::PxBoxGeometry(20.0f, 2.0f, 20.0f));
-	Particle* test = new Particle(1, Vector3D(0, 10, 0), Vector3D(0), Vector3D(0), recShape, 1, 1e9f);
-	test->setColor(Vector4(0, 0, 1, 1));
+	agua = new Particle(1, Vector3D(0, 10, 0), Vector3D(0), Vector3D(0), recShape, 1, 1e9f);
+	agua->setColor(Vector4(0, 0, 1, 1));
 
 	ball_1 = new Particle(1, Vector3D(-10, 20, 10), Vector3D(0), Vector3D(0), shape, 1, 1e9f);
 	ball_1->setColor(Vector4(0.5f, 0.6, 1, 1));
@@ -114,12 +114,15 @@ void MuelleScene::update(double dt) {
 
 void MuelleScene::cleanup() {
 	delete ps_muelle;  ps_muelle = nullptr;
-	delete ps_bouyancy;  ps_bouyancy = nullptr;
 	delete pg_muelle; pg_muelle = nullptr;
 	
 	delete box; box = nullptr;
+	delete ball_1;ball_1 = nullptr;
+	delete ball_2;ball_2 = nullptr;
+	delete agua; agua = nullptr;
 
 	for (ForceGenerator* f : allForces) delete f;
 	allForces.clear();
 	gravity = nullptr; buoyancy = nullptr; spring = nullptr;
+	spring_ball_1 = nullptr; spring_ball_2 = nullptr; wind = nullptr;
 }
